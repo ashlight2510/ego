@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EGO 테스트 - 당신의 자아는 어떻게 반응하는가</title>
+
+    <!-- SEO / OG -->
+    <meta
+      name="description"
+      content="12문항으로 알아보는 EGO(자아 반응) 테스트. 갈등·스트레스 상황에서 당신의 자아가 어떻게 작동하는지 분석합니다."
+    />
+    <meta
+      property="og:title"
+      content="EGO 테스트 - 당신의 자아는 어떻게 반응하는가"
+    />
+    <meta
+      property="og:description"
+      content="갈등·스트레스 상황에서 튀어나오는 ‘자아 반응 패턴’을 1분 만에 분석합니다."
+    />
+    <meta
+      property="og:image"
+      content="https://dummyimage.com/1200x630/0b1220/ffffff.png&text=EGO+TEST"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image:alt" content="EGO TEST 썸네일" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Ctext y='50' x='4' font-size='44'%3E%F0%9F%A7%A0%3C/text%3E%3C/svg%3E"
+    />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      :root {
+        font-size: 16.5px;
+      }
+      body {
+        background: #0b1220;
+      }
+      .fade-in {
+        animation: fade 0.25s ease both;
+      }
+      @keyframes fade {
+        from {
+          opacity: 0;
+          transform: translateY(6px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .tap {
+        transform: translateY(0);
+        transition: transform 0.08s ease;
+      }
+      .tap:active {
+        transform: translateY(1px);
+      }
+    </style>
+  </head>
+
+  <body class="min-h-screen text-slate-100">
+    <main class="max-w-3xl mx-auto px-4 py-8 sm:py-10">
+      <!-- Header -->
+      <header class="flex items-start justify-between gap-3 mb-7">
+        <div>
+          <div
+            class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs text-slate-200"
+          >
+            <span>🧠</span><span>1분 EGO 테스트</span>
+          </div>
+          <h1 class="text-2xl sm:text-3xl font-extrabold mt-3 leading-tight">
+            EGO 테스트
+            <span
+              class="block text-slate-300 font-semibold text-base sm:text-lg mt-1"
+            >
+              당신의 자아는 어떻게 반응하는가
+            </span>
+          </h1>
+          <p class="text-slate-300 mt-3 leading-relaxed">
+            이 테스트는 ‘성격’이 아니라
+            <span class="font-semibold text-slate-100">갈등·스트레스·선택</span>
+            앞에서
+            <span class="font-semibold text-slate-100"
+              >자아가 활성화되는 반응 패턴</span
+            >을 분석합니다.
+          </p>
+        </div>
+        <a
+          href="#"
+          id="homeBadge"
+          class="hidden sm:inline-flex tap items-center rounded-2xl bg-white/10 px-3 py-2 text-xs text-slate-200 hover:bg-white/15"
+        >
+          ego
+        </a>
+      </header>
+
+      <!-- Card shell -->
+      <section
+        class="rounded-3xl bg-white/5 border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,.35)] overflow-hidden"
+      >
+        <!-- Progress -->
+        <div class="px-5 sm:px-7 pt-5 sm:pt-6">
+          <div class="flex items-center justify-between text-xs text-slate-300">
+            <span id="progressLabel">시작</span>
+            <span id="progressRight" class="tabular-nums">0 / 12</span>
+          </div>
+          <div class="mt-3 h-2 rounded-full bg-white/10 overflow-hidden">
+            <div id="progressBar" class="h-full w-0 bg-white/60"></div>
+          </div>
+        </div>
+
+        <!-- Views -->
+        <div class="p-5 sm:p-7">
+          <!-- Start -->
+          <div id="viewStart" class="fade-in">
+            <div
+              class="rounded-2xl bg-white/5 border border-white/10 p-5 sm:p-6"
+            >
+              <h2 class="text-lg sm:text-xl font-bold">시작하기 전에</h2>
+              <ul class="mt-3 space-y-2 text-slate-300 leading-relaxed">
+                <li>
+                  • 정답은 없어요.
+                  <span class="text-slate-100 font-semibold">“평소 반응”</span
+                  >으로 고르세요.
+                </li>
+                <li>
+                  • 질문은 12개, 클릭하면
+                  <span class="text-slate-100 font-semibold">바로 다음</span
+                  >으로 넘어갑니다.
+                </li>
+                <li>• 결과는 상위 2개 유형과 전체 분포(%)로 보여줘요.</li>
+              </ul>
+              <button
+                id="startBtn"
+                class="tap mt-5 w-full rounded-2xl bg-white text-slate-900 font-bold py-3 hover:bg-slate-100"
+              >
+                테스트 시작하기
+              </button>
+              <p class="mt-3 text-xs text-slate-400">
+                참고: 백분율은 “대략적인 경향”입니다. 자아는 상황에 따라
+                활성화가 달라질 수 있어요.
+              </p>
+            </div>
+          </div>
+
+          <!-- Quiz -->
+          <div id="viewQuiz" class="hidden fade-in">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <div class="text-xs text-slate-400">질문</div>
+                <h2
+                  id="qTitle"
+                  class="text-lg sm:text-xl font-extrabold mt-1 leading-snug"
+                >
+                  -
+                </h2>
+              </div>
+              <button
+                id="backBtn"
+                class="tap shrink-0 rounded-2xl bg-white/10 border border-white/10 px-3 py-2 text-xs text-slate-200 hover:bg-white/15"
+              >
+                ← 뒤로
+              </button>
+            </div>
+
+            <div id="optionsWrap" class="mt-5 grid grid-cols-1 gap-3"></div>
+
+            <div
+              class="mt-5 flex items-center justify-between text-xs text-slate-400"
+            >
+              <span id="hintText">선택하면 자동으로 다음으로 이동합니다.</span>
+              <button id="resetBtn" class="tap underline hover:text-slate-200">
+                처음부터
+              </button>
+            </div>
+          </div>
+
+          <!-- Result -->
+          <div id="viewResult" class="hidden fade-in">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <div class="text-xs text-slate-400">결과</div>
+                <h2
+                  id="resultTitle"
+                  class="text-xl sm:text-2xl font-extrabold mt-1 leading-snug"
+                >
+                  -
+                </h2>
+                <p
+                  id="resultSubtitle"
+                  class="text-slate-300 mt-2 leading-relaxed"
+                >
+                  -
+                </p>
+              </div>
+              <button
+                id="restartBtn"
+                class="tap shrink-0 rounded-2xl bg-white text-slate-900 font-bold px-4 py-2 hover:bg-slate-100 text-sm"
+              >
+                다시하기
+              </button>
+            </div>
+
+            <!-- Top types -->
+            <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="rounded-2xl bg-white/5 border border-white/10 p-4">
+                <div class="text-xs text-slate-400">1위</div>
+                <div class="mt-1 flex items-baseline justify-between">
+                  <div>
+                    <div id="top1Name" class="text-lg font-extrabold">-</div>
+                    <div id="top1Tag" class="text-sm text-slate-300">-</div>
+                  </div>
+                  <div id="top1Pct" class="text-xl font-extrabold tabular-nums">
+                    -
+                  </div>
+                </div>
+                <button
+                  id="readTop1"
+                  class="tap mt-3 w-full rounded-2xl bg-white/10 border border-white/10 py-2 text-sm hover:bg-white/15"
+                >
+                  1위 유형 자세히 보기
+                </button>
+              </div>
+
+              <div class="rounded-2xl bg-white/5 border border-white/10 p-4">
+                <div class="text-xs text-slate-400">2위</div>
+                <div class="mt-1 flex items-baseline justify-between">
+                  <div>
+                    <div id="top2Name" class="text-lg font-extrabold">-</div>
+                    <div id="top2Tag" class="text-sm text-slate-300">-</div>
+                  </div>
+                  <div id="top2Pct" class="text-xl font-extrabold tabular-nums">
+                    -
+                  </div>
+                </div>
+                <button
+                  id="readTop2"
+                  class="tap mt-3 w-full rounded-2xl bg-white/10 border border-white/10 py-2 text-sm hover:bg-white/15"
+                >
+                  2위 유형도 읽어보기
+                </button>
+              </div>
+            </div>
+
+            <!-- Notice -->
+            <div
+              id="ambiguousBox"
+              class="hidden mt-4 rounded-2xl bg-white/5 border border-white/10 p-4"
+            >
+              <div class="font-bold">주요 유형이 확실하지 않습니다.</div>
+              <p class="text-slate-300 mt-2 leading-relaxed">
+                1위와 2위가 매우 근접합니다. 상황에 따라 두 자아 반응이 번갈아
+                나타날 수 있어요.
+                <span class="text-slate-100 font-semibold"
+                  >2위 유형 설명도 함께 읽어보는 것</span
+                >을 권장합니다.
+              </p>
+            </div>
+
+            <!-- Distribution -->
+            <div class="mt-6 rounded-2xl bg-white/5 border border-white/10 p-5">
+              <div class="flex items-center justify-between">
+                <h3 class="font-extrabold">전체 분포(%)</h3>
+                <button
+                  id="copyShareBtn"
+                  class="tap rounded-2xl bg-white/10 border border-white/10 px-3 py-2 text-xs hover:bg-white/15"
+                >
+                  결과 문구 복사
+                </button>
+              </div>
+              <p class="text-xs text-slate-400 mt-2">
+                참고: %는 “자아 반응 경향”의 대략적인 지표입니다. (고정 성격
+                낙인용이 아님)
+              </p>
+              <div id="distList" class="mt-4 space-y-2"></div>
+            </div>
+
+            <!-- Detail -->
+            <div class="mt-6 rounded-2xl bg-white/5 border border-white/10 p-5">
+              <div class="flex items-center justify-between gap-3">
+                <h3 id="detailTitle" class="font-extrabold">유형 상세</h3>
+                <div class="flex gap-2">
+                  <button
+                    id="prevTypeBtn"
+                    class="tap rounded-2xl bg-white/10 border border-white/10 px-3 py-2 text-xs hover:bg-white/15"
+                  >
+                    ←
+                  </button>
+                  <button
+                    id="nextTypeBtn"
+                    class="tap rounded-2xl bg-white/10 border border-white/10 px-3 py-2 text-xs hover:bg-white/15"
+                  >
+                    →
+                  </button>
+                </div>
+              </div>
+
+              <div
+                id="detailBody"
+                class="mt-4 text-slate-200 leading-relaxed"
+              ></div>
+
+              <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <button
+                  id="jumpTop1"
+                  class="tap rounded-2xl bg-white text-slate-900 font-bold py-3 hover:bg-slate-100"
+                >
+                  1위로 이동
+                </button>
+                <button
+                  id="jumpTop2"
+                  class="tap rounded-2xl bg-white/10 border border-white/10 py-3 hover:bg-white/15"
+                >
+                  2위로 이동
+                </button>
+              </div>
+            </div>
+
+            <footer class="mt-6 text-xs text-slate-500 leading-relaxed">
+              EGO 테스트는 “상황 반응 패턴”을 보여주는 도구입니다. 진단/치료
+              목적이 아닙니다.
+            </footer>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      /** =========================
+       *  Data
+       *  ========================= */
+      const TYPES = {
+        E1: {
+          label: "E1 통제형",
+          tag: "“틀리면 안 돼”",
+          short: "규칙·기준으로 불안을 잡는 자아",
+        },
+        E2: {
+          label: "E2 과잉배려형",
+          tag: "“필요한 사람이 되어야 해”",
+          short: "관계·헌신으로 가치를 증명하는 자아",
+        },
+        E3: {
+          label: "E3 성취과시형",
+          tag: "“나는 인정받아야 해”",
+          short: "성과·이미지로 자아를 지키는 자아",
+        },
+        E4: {
+          label: "E4 결핍몰입형",
+          tag: "“나는 다르다”",
+          short: "특별함·의미로 정체성을 세우는 자아",
+        },
+        E5: {
+          label: "E5 거리두기형",
+          tag: "“에너지를 아껴야 해”",
+          short: "거리·정보로 안전을 확보하는 자아",
+        },
+        E6: {
+          label: "E6 불안경계형",
+          tag: "“위험한 건 아닌가?”",
+          short: "확실함·검증으로 불안을 관리하는 자아",
+        },
+        E7: {
+          label: "E7 회피확장형",
+          tag: "“재미없는 건 피하자”",
+          short: "가능성·자극으로 불편을 회피하는 자아",
+        },
+        E8: {
+          label: "E8 압도지배형",
+          tag: "“당하지 않겠다”",
+          short: "힘·직진으로 취약함을 숨기는 자아",
+        },
+        E9: {
+          label: "E9 중재회피형",
+          tag: "“평화가 깨지면 안 돼”",
+          short: "조화·완충으로 갈등을 흡수하는 자아",
+        },
+      };
+
+      const RESULT_PAGES = {
+        E1: {
+          title: "통제형",
+          oneLine: "당신의 자아는 ‘기준과 통제’로 세상을 안정시키려 합니다.",
+          core: [
+            "실수/무질서를 불편해함",
+            "원칙과 기준이 분명함",
+            "‘옳음’을 지키며 자신과 타인을 다잡음",
+          ],
+          avoid: "틀림, 무질서, 기준이 흐려지는 상황",
+          defense: "합리화/비판: 불안을 ‘정정’과 ‘개선’으로 바꿔버림",
+          balance: "차분한 리더십, 공정함, 문제 해결력, 신뢰를 만드는 사람",
+          imbalance: "완벽주의, 잦은 짜증/비판, 자기검열, 타인에게도 엄격함",
+          wings: "인접 유형은 E9·E2. (E1w9: 더 차분/절제, E1w2: 더 책임/헌신)",
+          tip: "‘지금 충분히 괜찮다’는 체크포인트를 만들어 통제 레벨을 낮춰보세요.",
+        },
+        E2: {
+          title: "과잉배려형",
+          oneLine:
+            "당신의 자아는 ‘관계에서의 필요함’으로 존재감을 지키려 합니다.",
+          core: [
+            "상대의 니즈를 빠르게 감지",
+            "도움/배려로 관계를 단단히 하려 함",
+            "거절을 어려워할 수 있음",
+          ],
+          avoid: "거절당함, 쓸모없다고 느껴지는 순간, 관계의 냉각",
+          defense: "과잉헌신: 불안을 ‘내가 더 해주면 돼’로 바꿈",
+          balance: "따뜻함, 지지, 팀의 온도를 올리는 사람, 관계 회복 능력",
+          imbalance: "경계 붕괴, 피로 누적, 은근한 서운함/보상심리",
+          wings: "인접 유형은 E1·E3. (E2w1: 더 책임감, E2w3: 더 능률/이미지)",
+          tip: "‘도움’ 전에 “지금 이건 내 역할인가?” 한 번만 물어보면 경계가 생깁니다.",
+        },
+        E3: {
+          title: "성취과시형",
+          oneLine:
+            "당신의 자아는 ‘성과와 인정’으로 스스로를 안전하게 만듭니다.",
+          core: [
+            "목표/성과에 강함",
+            "효율/속도 중심",
+            "타인의 시선을 의식할 수 있음",
+          ],
+          avoid: "무가치함, 실패, 남에게 뒤처지는 느낌",
+          defense: "이미지 관리: 불안을 ‘잘하는 모습’으로 덮어버림",
+          balance: "추진력, 성과 창출, 조직을 움직이는 에너지",
+          imbalance: "공허감, 과로, 비교/평가 중독, ‘나’보다 ‘성과’가 앞섬",
+          wings:
+            "인접 유형은 E2·E4. (E3w2: 더 사교/배려, E3w4: 더 개성/브랜딩)",
+          tip: "성과 체크와 별개로 ‘오늘 내 컨디션 점수’를 함께 기록해보세요.",
+        },
+        E4: {
+          title: "결핍몰입형",
+          oneLine: "당신의 자아는 ‘의미와 특별함’으로 정체성을 지키려 합니다.",
+          core: [
+            "감정/의미에 민감",
+            "평범함을 답답해함",
+            "진짜 나를 찾고 싶어함",
+          ],
+          avoid: "진부함, 표면적인 관계, 감정이 무시되는 상황",
+          defense: "몰입/미화: 불안을 ‘더 깊은 의미’ 찾기로 전환",
+          balance: "창의성, 공감, 섬세한 표현력, 진정성 있는 관계",
+          imbalance: "결핍감 증폭, 비교, 감정 롤러코스터, 자기비난",
+          wings: "인접 유형은 E3·E5. (E4w3: 더 성취/표현, E4w5: 더 내면/고독)",
+          tip: "감정을 ‘작품’으로 만들기 전에, 몸을 먼저 안정시키는 루틴(호흡/산책)을 넣어보세요.",
+        },
+        E5: {
+          title: "거리두기형",
+          oneLine: "당신의 자아는 ‘거리와 정보’로 안전을 확보합니다.",
+          core: [
+            "에너지 관리에 민감",
+            "관찰/분석을 선호",
+            "감정 표현이 늦을 수 있음",
+          ],
+          avoid: "과도한 요구, 침범, 감정 소용돌이",
+          defense: "철수/분석: 불안을 ‘거리’와 ‘이해’로 관리",
+          balance: "통찰, 전략, 깊은 집중, 문제를 구조로 풀어냄",
+          imbalance: "고립, 과생각, 실행 지연, 관계 단절",
+          wings: "인접 유형은 E4·E6. (E5w4: 더 예술/내면, E5w6: 더 신중/검증)",
+          tip: "‘준비가 끝나면’ 대신 “10%만 해보기”로 실행을 당겨보세요.",
+        },
+        E6: {
+          title: "불안경계형",
+          oneLine: "당신의 자아는 ‘검증과 대비’로 위험을 통제합니다.",
+          core: [
+            "리스크 감지 능력",
+            "책임감/충성심",
+            "확실한 기준을 찾으려 함",
+          ],
+          avoid: "불확실함, 배신/변수, 예측 불가",
+          defense: "확인/의심: 불안을 ‘검증’으로 바꿔버림",
+          balance: "신뢰, 팀을 지키는 사람, 위기 대비력, 현실 감각",
+          imbalance: "걱정 과다, 의심/경계, 결정을 미룸, 불안 루프",
+          wings: "인접 유형은 E5·E7. (E6w5: 더 분석/조심, E6w7: 더 활기/분산)",
+          tip: "불안할수록 ‘정보 추가’가 아니라 ‘결정 기준 1개’만 남겨보세요.",
+        },
+        E7: {
+          title: "회피확장형",
+          oneLine: "당신의 자아는 ‘가능성과 자극’으로 불편을 회피합니다.",
+          core: [
+            "재미/새로움에 강함",
+            "기회 포착이 빠름",
+            "답답한 감정을 싫어함",
+          ],
+          avoid: "지루함, 제한, 우울/불편 감정에 오래 머무는 것",
+          defense: "전환/분산: 불안을 ‘다른 즐거움’으로 바꿔버림",
+          balance: "아이디어, 낙관, 분위기 메이커, 확장 능력",
+          imbalance:
+            "과소비/과일정, 산만, 회피, 깊은 관계/프로젝트 유지 어려움",
+          wings:
+            "인접 유형은 E6·E8. (E7w6: 더 사교/불안관리, E7w8: 더 추진/호쾌)",
+          tip: "새 선택지를 열기 전에 ‘지금 감정 1개’만 이름 붙이면 회피가 줄어듭니다.",
+        },
+        E8: {
+          title: "압도지배형",
+          oneLine: "당신의 자아는 ‘힘과 직진’으로 취약함을 보호합니다.",
+          core: ["정면 돌파", "주도권/정의감", "약함을 드러내기 싫어함"],
+          avoid: "통제당함, 약자로 보임, 불공정",
+          defense: "공격/지배: 불안을 ‘힘’으로 덮어버림",
+          balance: "결단, 보호자 기질, 정의, 리더십",
+          imbalance: "과한 압박, 흑백논리, 감정 단절, 상처를 인정하기 어려움",
+          wings:
+            "인접 유형은 E7·E9. (E8w7: 더 활기/확장, E8w9: 더 절제/무게감)",
+          tip: "‘강하게’ 말하기 전에 “내가 지금 뭘 두려워하지?” 한 번만 체크해도 관계가 달라집니다.",
+        },
+        E9: {
+          title: "중재회피형",
+          oneLine:
+            "당신의 자아는 ‘평화 유지’를 위해 스스로를 뒤로 미루는 방식으로 작동합니다.",
+          core: ["갈등을 싫어함", "상대 입장을 잘 봄", "분위기·조화를 우선함"],
+          avoid: "대립, 불편한 감정, 선택으로 인한 책임",
+          defense: "분리/마비: 불편에서 멀어지기 위해 멍/분산/대체물로 빠짐",
+          balance: "따뜻함, 수용성, 관점 통합, 조용한 리더십, 중재 능력",
+          imbalance: "미루기, 체념, 수동 공격성, 자존감 저하, 결정 회피",
+          wings: "인접 유형은 E8·E1. (E9w8: 더 단단/직진, E9w1: 더 이상/정돈)",
+          tip: "‘평화’와 ‘회피’를 구분하는 기준 하나: “지금 이 선택이 내 욕구를 지우는가?”",
+        },
+      };
+
+      /**
+       * 12 Questions
+       * - 각 옵션은 {E?: 점수} 가중치
+       * - 2점/1점 조합으로 분포를 만들고, 타입 커버리지를 균등하게 배치
+       */
+      const QUESTIONS = [
+        {
+          q: "갈등이 생겼을 때 나는 보통",
+          options: [
+            { t: "분위기가 깨질까 봐 조용히 넘긴다", s: { E9: 2, E2: 1 } },
+            { t: "상대가 왜 그런지 분석부터 한다", s: { E5: 2, E6: 1 } },
+            { t: "이 상황을 가볍게 바꿔보려 한다", s: { E7: 2, E9: 1 } },
+            { t: "정면으로 짚고 넘어가야 한다", s: { E8: 2, E1: 1 } },
+          ],
+        },
+        {
+          q: "누가 내 일을 지적하면 먼저 드는 감정은",
+          options: [
+            { t: "‘맞는 말이야’… 더 완벽히 해야지", s: { E1: 2, E3: 1 } },
+            { t: "‘내 진짜 의도를 몰라줘’ 서운하다", s: { E4: 2, E2: 1 } },
+            { t: "‘굳이 지금?’ 거리 두고 싶다", s: { E5: 2, E9: 1 } },
+            { t: "‘나를 건드리네?’ 반격 포인트를 찾는다", s: { E8: 2, E6: 1 } },
+          ],
+        },
+        {
+          q: "중요한 결정을 앞두면 나는",
+          options: [
+            { t: "최악의 경우를 먼저 대비한다", s: { E6: 2, E1: 1 } },
+            { t: "가능성을 넓게 열어두고 싶다", s: { E7: 2, E3: 1 } },
+            { t: "정답을 찾기 전엔 움직이기 싫다", s: { E5: 2, E6: 1 } },
+            { t: "갈등이 생길까 봐 결정을 미룬다", s: { E9: 2, E2: 1 } },
+          ],
+        },
+        {
+          q: "사람들이 나를 어떻게 봤으면 좋겠나",
+          options: [
+            { t: "믿을 만하고 올바른 사람", s: { E1: 2, E6: 1 } },
+            { t: "따뜻하고 도움이 되는 사람", s: { E2: 2, E9: 1 } },
+            { t: "능력 있고 성과 내는 사람", s: { E3: 2, E1: 1 } },
+            { t: "독특하고 진짜 ‘나’인 사람", s: { E4: 2, E5: 1 } },
+          ],
+        },
+        {
+          q: "스트레스를 받으면 나는",
+          options: [
+            { t: "일/성과로 밀어붙여 잊는다", s: { E3: 2, E8: 1 } },
+            { t: "혼자만의 공간으로 숨고 싶다", s: { E5: 2, E9: 1 } },
+            { t: "재밌는 걸 찾아 기분을 전환한다", s: { E7: 2, E4: 1 } },
+            { t: "사람들 사이를 조용히 정리하고 싶다", s: { E9: 2, E2: 1 } },
+          ],
+        },
+        {
+          q: "내가 가장 싫어하는 건",
+          options: [
+            { t: "기준이 무너지고 대충 넘어가는 것", s: { E1: 2, E6: 1 } },
+            { t: "내가 필요 없는 사람처럼 느끼는 것", s: { E2: 2, E4: 1 } },
+            { t: "통제당하거나 만만하게 보이는 것", s: { E8: 2, E3: 1 } },
+            { t: "의미 없는 반복과 지루함", s: { E7: 2, E9: 1 } },
+          ],
+        },
+        {
+          q: "사람들이 싸울 때 나는",
+          options: [
+            { t: "중간에서 분위기를 누그러뜨린다", s: { E9: 2, E2: 1 } },
+            { t: "누가 맞는지 기준을 세우려 한다", s: { E1: 2, E6: 1 } },
+            { t: "불편해서 자리를 피한다", s: { E5: 2, E7: 1 } },
+            { t: "핵심만 짚고 결론을 내게 한다", s: { E8: 2, E3: 1 } },
+          ],
+        },
+        {
+          q: "내가 ‘나답다’고 느끼는 순간은",
+          options: [
+            { t: "진짜 감정/의미를 깊게 느낄 때", s: { E4: 2, E9: 1 } },
+            { t: "유능함을 증명하고 결과가 나올 때", s: { E3: 2, E1: 1 } },
+            { t: "새로운 경험이 열리고 확장될 때", s: { E7: 2, E8: 1 } },
+            { t: "혼자 생각이 정리되고 이해가 생길 때", s: { E5: 2, E6: 1 } },
+          ],
+        },
+        {
+          q: "약속/요청이 들어오면 나는",
+          options: [
+            { t: "거절하면 마음이 불편해서 일단 받는다", s: { E2: 2, E9: 1 } },
+            { t: "내 에너지/시간부터 계산한다", s: { E5: 2, E1: 1 } },
+            { t: "일단 오케이 하고 나중에 조정한다", s: { E7: 2, E3: 1 } },
+            { t: "선 넘으면 단호하게 끊는다", s: { E8: 2, E6: 1 } },
+          ],
+        },
+        {
+          q: "실패했을 때 나는",
+          options: [
+            { t: "다음엔 더 잘해 보여주겠다", s: { E3: 2, E1: 1 } },
+            { t: "내가 별로인 사람 같아져 우울해진다", s: { E4: 2, E6: 1 } },
+            { t: "왜 실패했는지 냉정히 분석한다", s: { E5: 2, E1: 1 } },
+            { t: "화가 나서 더 강하게 밀어붙인다", s: { E8: 2, E7: 1 } },
+          ],
+        },
+        {
+          q: "내가 가장 자주 하는 자기합리화는",
+          options: [
+            { t: "“이건 원래 이렇게 해야 맞아.”", s: { E1: 2, E5: 1 } },
+            { t: "“상대도 사정이 있겠지.”", s: { E9: 2, E2: 1 } },
+            { t: "“지금은 타이밍이 아니야.”", s: { E6: 2, E5: 1 } },
+            { t: "“어차피 더 좋은 선택지가 있을 거야.”", s: { E7: 2, E3: 1 } },
+          ],
+        },
+        {
+          q: "내가 진짜로 원하는 건",
+          options: [
+            { t: "평온함과 관계의 조화", s: { E9: 2, E2: 1 } },
+            { t: "자유와 즐거운 확장", s: { E7: 2, E4: 1 } },
+            { t: "확실함과 안정", s: { E6: 2, E1: 1 } },
+            { t: "힘과 주도권", s: { E8: 2, E3: 1 } },
+          ],
+        },
+      ];
+
+      // 근접 판정 임계값(%)
+      const CLOSE_THRESHOLD = 7;
+
+      /** =========================
+       *  State
+       *  ========================= */
+      let idx = 0;
+      let answers = []; // each: { optionIndex, scoreObj }
+      let scores = resetScores();
+      let currentDetailType = "E9"; // default
+
+      function resetScores() {
+        return {
+          E1: 0,
+          E2: 0,
+          E3: 0,
+          E4: 0,
+          E5: 0,
+          E6: 0,
+          E7: 0,
+          E8: 0,
+          E9: 0,
+        };
+      }
+
+      /** =========================
+       *  DOM
+       *  ========================= */
+      const viewStart = document.getElementById("viewStart");
+      const viewQuiz = document.getElementById("viewQuiz");
+      const viewResult = document.getElementById("viewResult");
+
+      const startBtn = document.getElementById("startBtn");
+      const backBtn = document.getElementById("backBtn");
+      const resetBtn = document.getElementById("resetBtn");
+      const restartBtn = document.getElementById("restartBtn");
+
+      const qTitle = document.getElementById("qTitle");
+      const optionsWrap = document.getElementById("optionsWrap");
+
+      const progressLabel = document.getElementById("progressLabel");
+      const progressRight = document.getElementById("progressRight");
+      const progressBar = document.getElementById("progressBar");
+
+      const resultTitle = document.getElementById("resultTitle");
+      const resultSubtitle = document.getElementById("resultSubtitle");
+
+      const top1Name = document.getElementById("top1Name");
+      const top1Tag = document.getElementById("top1Tag");
+      const top1Pct = document.getElementById("top1Pct");
+
+      const top2Name = document.getElementById("top2Name");
+      const top2Tag = document.getElementById("top2Tag");
+      const top2Pct = document.getElementById("top2Pct");
+
+      const readTop1 = document.getElementById("readTop1");
+      const readTop2 = document.getElementById("readTop2");
+
+      const ambiguousBox = document.getElementById("ambiguousBox");
+      const distList = document.getElementById("distList");
+
+      const detailTitle = document.getElementById("detailTitle");
+      const detailBody = document.getElementById("detailBody");
+      const prevTypeBtn = document.getElementById("prevTypeBtn");
+      const nextTypeBtn = document.getElementById("nextTypeBtn");
+      const jumpTop1 = document.getElementById("jumpTop1");
+      const jumpTop2 = document.getElementById("jumpTop2");
+
+      const copyShareBtn = document.getElementById("copyShareBtn");
+
+      /** =========================
+       *  UI helpers
+       *  ========================= */
+      function setProgress() {
+        const total = QUESTIONS.length;
+        const done = Math.min(idx, total);
+        progressRight.textContent = `${done} / ${total}`;
+        progressLabel.textContent = idx === 0 ? "시작" : `Q${idx}`;
+        const pct = Math.round((done / total) * 100);
+        progressBar.style.width = `${pct}%`;
+      }
+
+      function show(el) {
+        el.classList.remove("hidden");
+      }
+      function hide(el) {
+        el.classList.add("hidden");
+      }
+
+      function btnOption(text) {
+        const btn = document.createElement("button");
+        btn.className =
+          "tap text-left rounded-2xl bg-white/5 border border-white/10 p-4 sm:p-5 hover:bg-white/10 hover:border-white/20 transition";
+        btn.innerHTML = `
+    <div class="flex items-start gap-3">
+      <div class="mt-0.5 size-5 rounded-full bg-white/10 border border-white/10 flex items-center justify-center text-xs">✓</div>
+      <div class="leading-relaxed text-slate-100">${escapeHtml(text)}</div>
+    </div>
+  `;
+        return btn;
+      }
+
+      function escapeHtml(str) {
+        return String(str)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      }
+
+      /** =========================
+       *  Quiz flow
+       *  ========================= */
+      function start() {
+        idx = 0;
+        answers = [];
+        scores = resetScores();
+        hide(viewStart);
+        hide(viewResult);
+        show(viewQuiz);
+        renderQuestion();
+      }
+
+      function renderQuestion() {
+        setProgress();
+        const q = QUESTIONS[idx];
+        qTitle.textContent = q.q;
+        optionsWrap.innerHTML = "";
+
+        q.options.forEach((opt, optIndex) => {
+          const btn = btnOption(opt.t);
+          btn.addEventListener("click", () => {
+            // save answer
+            answers[idx] = { optionIndex: optIndex, scoreObj: opt.s };
+            // add scores
+            for (const k in opt.s) scores[k] += opt.s[k];
+            // next
+            idx++;
+            if (idx >= QUESTIONS.length) {
+              finish();
+            } else {
+              // animate
+              viewQuiz.classList.remove("fade-in");
+              void viewQuiz.offsetWidth;
+              viewQuiz.classList.add("fade-in");
+              renderQuestion();
+            }
+          });
+          optionsWrap.appendChild(btn);
+        });
+
+        backBtn.disabled = idx === 0;
+        backBtn.classList.toggle("opacity-40", idx === 0);
+        backBtn.classList.toggle("pointer-events-none", idx === 0);
+      }
+
+      function goBack() {
+        if (idx === 0) return;
+        // remove last answer scores
+        const prevIndex = idx - 1;
+        const prev = answers[prevIndex];
+        if (prev?.scoreObj) {
+          for (const k in prev.scoreObj) scores[k] -= prev.scoreObj[k];
+        }
+        answers.pop();
+        idx--;
+        renderQuestion();
+      }
+
+      function resetAll() {
+        idx = 0;
+        answers = [];
+        scores = resetScores();
+        hide(viewQuiz);
+        hide(viewResult);
+        show(viewStart);
+        setProgress();
+      }
+
+      /** =========================
+       *  Result calculation
+       *  ========================= */
+      function computePercents(scoreObj) {
+        // normalize by total points
+        const total = Object.values(scoreObj).reduce((a, b) => a + b, 0) || 1;
+        const perc = {};
+        for (const k in scoreObj) {
+          perc[k] = Math.round((scoreObj[k] / total) * 100);
+        }
+
+        // rounding fix: ensure sum=100
+        let sum = Object.values(perc).reduce((a, b) => a + b, 0);
+        if (sum !== 100) {
+          const entries = Object.keys(perc).sort((a, b) => perc[b] - perc[a]);
+          perc[entries[0]] += 100 - sum;
+        }
+        return perc;
+      }
+
+      function finish() {
+        const perc = computePercents(scores);
+        const sorted = Object.keys(perc).sort((a, b) => perc[b] - perc[a]);
+        const top1 = sorted[0];
+        const top2 = sorted[1];
+
+        const diff = Math.abs(perc[top1] - perc[top2]);
+        const isAmbiguous = diff <= CLOSE_THRESHOLD;
+
+        // Title/subtitle
+        resultTitle.textContent = `당신의 EGO 유형은 ${TYPES[top1].label} 또는 ${TYPES[top2].label}`;
+        resultSubtitle.textContent = isAmbiguous
+          ? "주요 유형이 매우 근접합니다. 상황에 따라 두 자아 반응이 번갈아 나타날 수 있어요."
+          : "가장 강하게 활성화되는 자아 반응 패턴을 중심으로 설명합니다.";
+
+        // Top cards
+        top1Name.textContent = TYPES[top1].label;
+        top1Tag.textContent = TYPES[top1].tag;
+        top1Pct.textContent = `${perc[top1]}%`;
+
+        top2Name.textContent = TYPES[top2].label;
+        top2Tag.textContent = TYPES[top2].tag;
+        top2Pct.textContent = `${perc[top2]}%`;
+
+        // Ambiguous box
+        if (isAmbiguous) show(ambiguousBox);
+        else hide(ambiguousBox);
+
+        // Distribution list
+        distList.innerHTML = "";
+        sorted.forEach((k) => {
+          const row = document.createElement("div");
+          row.className = "rounded-xl bg-white/5 border border-white/10 p-3";
+          row.innerHTML = `
+      <div class="flex items-center justify-between text-sm">
+        <div class="font-semibold">${escapeHtml(TYPES[k].label)}</div>
+        <div class="tabular-nums font-bold">${perc[k]}%</div>
+      </div>
+      <div class="mt-2 h-2 rounded-full bg-white/10 overflow-hidden">
+        <div class="h-full bg-white/60" style="width:${perc[k]}%"></div>
+      </div>
+    `;
+          row.addEventListener("click", () => setDetail(k));
+          distList.appendChild(row);
+        });
+
+        // default detail: top1
+        currentDetailType = top1;
+        setDetail(top1);
+
+        // buttons
+        readTop1.onclick = () => setDetail(top1, true);
+        readTop2.onclick = () => setDetail(top2, true);
+        jumpTop1.onclick = () => setDetail(top1, true);
+        jumpTop2.onclick = () => setDetail(top2, true);
+
+        // share text
+        const shareText = `[EGO 테스트 결과]
+1위: ${TYPES[top1].label} (${perc[top1]}%)
+2위: ${TYPES[top2].label} (${perc[top2]}%)
+
+한 줄 요약: ${RESULT_PAGES[top1].oneLine}
+(참고: EGO는 고정 성격이 아니라 상황에서 활성화되는 반응 패턴입니다.)`;
+
+        copyShareBtn.onclick = async () => {
+          try {
+            await navigator.clipboard.writeText(shareText);
+            copyShareBtn.textContent = "복사 완료!";
+            setTimeout(
+              () => (copyShareBtn.textContent = "결과 문구 복사"),
+              1200
+            );
+          } catch (e) {
+            alert("복사에 실패했어요. 브라우저 권한을 확인해 주세요.");
+          }
+        };
+
+        // Show result
+        hide(viewQuiz);
+        show(viewResult);
+        setProgress();
+      }
+
+      /** =========================
+       *  Detail rendering
+       *  ========================= */
+      function setDetail(typeKey, scrollInto = false) {
+        currentDetailType = typeKey;
+        const d = RESULT_PAGES[typeKey];
+        detailTitle.textContent = `${TYPES[typeKey].label} · ${d.title}`;
+
+        detailBody.innerHTML = `
+    <div class="rounded-2xl bg-white/5 border border-white/10 p-4">
+      <div class="text-xs text-slate-400">한 줄 정의</div>
+      <div class="mt-1 text-lg font-extrabold">${escapeHtml(d.oneLine)}</div>
+      <div class="mt-2 text-sm text-slate-300">${escapeHtml(
+        TYPES[typeKey].short
+      )}</div>
+    </div>
+
+    <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div class="rounded-2xl bg-white/5 border border-white/10 p-4">
+        <div class="font-bold">핵심 특징</div>
+        <ul class="mt-2 space-y-1 text-slate-300">
+          ${d.core.map((x) => `<li>• ${escapeHtml(x)}</li>`).join("")}
+        </ul>
+      </div>
+      <div class="rounded-2xl bg-white/5 border border-white/10 p-4">
+        <div class="font-bold">회피 욕구</div>
+        <p class="mt-2 text-slate-300 leading-relaxed">${escapeHtml(
+          d.avoid
+        )}</p>
+      </div>
+    </div>
+
+    <div class="mt-3 rounded-2xl bg-white/5 border border-white/10 p-4">
+      <div class="font-bold">방어 기제</div>
+      <p class="mt-2 text-slate-300 leading-relaxed">${escapeHtml(
+        d.defense
+      )}</p>
+    </div>
+
+    <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div class="rounded-2xl bg-white/5 border border-white/10 p-4">
+        <div class="font-bold">균형 상태</div>
+        <p class="mt-2 text-slate-300 leading-relaxed">${escapeHtml(
+          d.balance
+        )}</p>
+      </div>
+      <div class="rounded-2xl bg-white/5 border border-white/10 p-4">
+        <div class="font-bold">불균형 상태</div>
+        <p class="mt-2 text-slate-300 leading-relaxed">${escapeHtml(
+          d.imbalance
+        )}</p>
+      </div>
+    </div>
+
+    <div class="mt-3 rounded-2xl bg-white/5 border border-white/10 p-4">
+      <div class="font-bold">날개(인접 유형)</div>
+      <p class="mt-2 text-slate-300 leading-relaxed">${escapeHtml(d.wings)}</p>
+      <div class="mt-3 rounded-xl bg-white/5 border border-white/10 p-3 text-slate-200">
+        <div class="text-xs text-slate-400">현실 팁</div>
+        <div class="mt-1 font-semibold">${escapeHtml(d.tip)}</div>
+      </div>
+    </div>
+  `;
+
+        if (scrollInto) {
+          detailTitle.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
+
+      function cycleDetail(dir) {
+        const keys = Object.keys(TYPES);
+        const i = keys.indexOf(currentDetailType);
+        const next = (i + dir + keys.length) % keys.length;
+        setDetail(keys[next], true);
+      }
+
+      /** =========================
+       *  Events
+       *  ========================= */
+      startBtn.addEventListener("click", start);
+      backBtn.addEventListener("click", goBack);
+      resetBtn.addEventListener("click", resetAll);
+      restartBtn.addEventListener("click", resetAll);
+
+      prevTypeBtn.addEventListener("click", () => cycleDetail(-1));
+      nextTypeBtn.addEventListener("click", () => cycleDetail(1));
+
+      /** init */
+      setProgress();
+    </script>
+  </body>
+</html>
