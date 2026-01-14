@@ -432,6 +432,174 @@
     </main>
 
     <script>
+      // =========================
+      // i18n
+      // =========================
+      const translations = {
+        ko: {
+          metaTitle: "EGO 테스트 - 당신의 자아는 어떻게 반응하는가",
+          metaDescription: "12문항으로 알아보는 EGO(자아 반응) 테스트. 갈등·스트레스 상황에서 당신의 자아가 어떻게 작동하는지 분석합니다.",
+          startTitle: "시작하기 전에",
+          startInstructions: "• 정답은 없어요. <span class=\"text-slate-100 font-semibold\">\"평소 반응\"</span>으로 고르세요.<br>• 질문은 12개, 클릭하면 <span class=\"text-slate-100 font-semibold\">바로 다음</span>으로 넘어갑니다.<br>• 결과는 상위 2개 유형과 전체 분포(%)로 보여줘요.",
+          startButton: "테스트 시작하기",
+          startNote: "참고: 백분율은 \"대략적인 경향\"입니다. 자아는 상황에 따라 활성화가 달라질 수 있어요.",
+          questionLabel: "질문",
+          backButton: "← 뒤로",
+          quizHint: "선택하면 자동으로 다음으로 이동합니다.",
+          resetButton: "처음부터",
+          resultLabel: "결과",
+          restartButton: "다시하기",
+          rank1: "1위",
+          rank2: "2위",
+          readTop1: "1위 유형 자세히 보기",
+          readTop2: "2위 유형도 읽어보기",
+          ambiguousTitle: "주요 유형이 확실하지 않습니다.",
+          ambiguousText: "1위와 2위가 매우 근접합니다. 상황에 따라 두 자아 반응이 번갈아 나타날 수 있어요. <span class=\"text-slate-100 font-semibold\">2위 유형 설명도 함께 읽어보는 것</span>을 권장합니다.",
+          distributionTitle: "전체 분포",
+          detailTitle: "자세히 보기",
+          prevType: "← 이전 유형",
+          nextType: "다음 유형 →",
+          jumpTop1: "1위로 이동",
+          jumpTop2: "2위로 이동",
+          moreTestsLink: "다른 테스트 더 해보기 (퍼니퍼니)",
+          footer: "EGO 테스트는 \"상황 반응 패턴\"을 보여주는 도구입니다. 진단/치료 목적이 아닙니다.",
+          copyShareText: "결과 문구 복사",
+          copyShareSuccess: "복사 완료!",
+          copyShareFail: "복사에 실패했어요. 브라우저 권한을 확인해 주세요.",
+        },
+        en: {
+          metaTitle: "EGO Test - How Does Your Ego React?",
+          metaDescription: "12-question EGO (ego reaction) test. Analyzes how your ego works in conflict and stress situations.",
+          startTitle: "Before You Start",
+          startInstructions: "• There are no right answers. Choose based on <span class=\"text-slate-100 font-semibold\">\"your usual reaction\"</span>.<br>• 12 questions, clicking moves to the <span class=\"text-slate-100 font-semibold\">next</span> immediately.<br>• Results show top 2 types and full distribution (%).",
+          startButton: "Start Test",
+          startNote: "Note: Percentages are \"rough tendencies\". Ego activation can vary by situation.",
+          questionLabel: "Question",
+          backButton: "← Back",
+          quizHint: "Clicking automatically moves to the next.",
+          resetButton: "Start Over",
+          resultLabel: "Result",
+          restartButton: "Restart",
+          rank1: "1st",
+          rank2: "2nd",
+          readTop1: "Read 1st Type Details",
+          readTop2: "Read 2nd Type Too",
+          ambiguousTitle: "Main type is uncertain.",
+          ambiguousText: "1st and 2nd are very close. Both ego reactions may alternate depending on the situation. <span class=\"text-slate-100 font-semibold\">Reading the 2nd type description too</span> is recommended.",
+          distributionTitle: "Full Distribution",
+          detailTitle: "Details",
+          prevType: "← Previous Type",
+          nextType: "Next Type →",
+          jumpTop1: "Jump to 1st",
+          jumpTop2: "Jump to 2nd",
+          moreTestsLink: "Try More Tests (FunnyFunny)",
+          footer: "EGO test is a tool showing \"situational reaction patterns\". Not for diagnosis/treatment.",
+          copyShareText: "Copy Result Text",
+          copyShareSuccess: "Copied!",
+          copyShareFail: "Copy failed. Check browser permissions.",
+        },
+      };
+
+      const defaultLang = "ko";
+      const supportedLangs = ["ko", "en"];
+      let currentLang = defaultLang;
+
+      function t(key, vars = {}) {
+        const langTable = translations[currentLang] || translations.ko;
+        let template = langTable?.[key] ?? translations.ko?.[key] ?? key;
+        if (typeof template !== "string") return template;
+        Object.keys(vars).forEach((k) => {
+          template = template.replace(new RegExp(`\\{${k}\\}`, "g"), vars[k]);
+        });
+        return template;
+      }
+
+      function applyTranslations() {
+        document.title = t("metaTitle");
+        document.documentElement.lang = currentLang;
+        const desc = document.querySelector('meta[name="description"]');
+        if (desc) desc.setAttribute("content", t("metaDescription"));
+        document.querySelectorAll("[data-i18n]").forEach((el) => {
+          el.textContent = t(el.dataset.i18n);
+        });
+        document.querySelectorAll("[data-i18n-html]").forEach((el) => {
+          el.innerHTML = t(el.dataset.i18nHtml);
+        });
+        document.querySelectorAll("[data-i18n-title]").forEach((el) => {
+          el.setAttribute("title", t(el.dataset.i18nTitle));
+        });
+        document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+          el.setAttribute("placeholder", t(el.dataset.i18nPlaceholder));
+        });
+        document.querySelectorAll("[data-i18n-aria]").forEach((el) => {
+          el.setAttribute("aria-label", t(el.dataset.i18nAria));
+        });
+        document.querySelectorAll("[data-i18n-alt]").forEach((el) => {
+          el.setAttribute("alt", t(el.dataset.i18nAlt));
+        });
+      }
+
+      function detectLang() {
+        const params = new URLSearchParams(window.location.search);
+        const paramLang = params.get("lang");
+        if (supportedLangs.includes(paramLang)) return paramLang;
+        const stored = localStorage.getItem("preferredLang");
+        if (supportedLangs.includes(stored)) return stored;
+        const intlLocale =
+          typeof Intl === "object" && typeof Intl.DateTimeFormat === "function"
+            ? Intl.DateTimeFormat().resolvedOptions().locale
+            : "";
+        const sources = [
+          ...(navigator.languages || []),
+          navigator.language,
+          navigator.userLanguage,
+          intlLocale,
+        ]
+          .filter(Boolean)
+          .map((locale) => locale.toLowerCase());
+        const hasKorean = sources.some((locale) => locale.startsWith("ko"));
+        return hasKorean ? "ko" : "en";
+      }
+
+      function setLang(lang, options = {}) {
+        const nextLang = supportedLangs.includes(lang) ? lang : defaultLang;
+        currentLang = nextLang;
+        window.currentLang = currentLang;
+        document.documentElement.lang = nextLang;
+        localStorage.setItem("preferredLang", nextLang);
+        document.querySelectorAll(".lang-switch button").forEach((button) => {
+          button.classList.toggle("active", button.dataset.lang === nextLang);
+        });
+        applyTranslations();
+        if (options.updateUrl) {
+          const url = new URL(window.location.href);
+          url.searchParams.set("lang", nextLang);
+          window.history.replaceState({}, "", url);
+        }
+        // Update dynamic content
+        if (window.idx !== undefined) {
+          setProgress();
+          if (idx < QUESTIONS.length) {
+            renderQuestion();
+          } else if (idx === QUESTIONS.length) {
+            finish();
+          }
+        }
+      }
+
+      document.querySelectorAll(".lang-switch button").forEach((button) => {
+        button.addEventListener("click", () => {
+          setLang(button.dataset.lang, { updateUrl: true });
+        });
+      });
+
+      setLang(detectLang(), { updateUrl: false });
+
+      // Make t() function and currentLang globally available
+      window.t = t;
+      window.currentLang = currentLang;
+      window.setLang = setLang;
+
       /** =========================
        *  Data
        *  ========================= */
@@ -810,10 +978,11 @@
        *  UI helpers
        *  ========================= */
       function setProgress() {
+        const t = window.t || ((key, vars = {}) => key);
         const total = QUESTIONS.length;
         const done = Math.min(idx, total);
         progressRight.textContent = `${done} / ${total}`;
-        progressLabel.textContent = idx === 0 ? "시작" : `Q${idx}`;
+        progressLabel.textContent = idx === 0 ? (currentLang === "ko" ? "시작" : "Start") : `Q${idx}`;
         const pct = Math.round((done / total) * 100);
         progressBar.style.width = `${pct}%`;
       }
@@ -1000,16 +1169,17 @@
 한 줄 요약: ${RESULT_PAGES[top1].oneLine}
 (참고: EGO는 고정 성격이 아니라 상황에서 활성화되는 반응 패턴입니다.)`;
 
+        const t = window.t || ((key, vars = {}) => key);
         copyShareBtn.onclick = async () => {
           try {
             await navigator.clipboard.writeText(shareText);
-            copyShareBtn.textContent = "복사 완료!";
+            copyShareBtn.textContent = t("copyShareSuccess");
             setTimeout(
-              () => (copyShareBtn.textContent = "결과 문구 복사"),
+              () => (copyShareBtn.textContent = t("copyShareText")),
               1200
             );
           } catch (e) {
-            alert("복사에 실패했어요. 브라우저 권한을 확인해 주세요.");
+            alert(t("copyShareFail"));
           }
         };
 
