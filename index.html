@@ -584,7 +584,7 @@
           window.history.replaceState({}, "", url);
         }
         // Update dynamic content
-        if (window.idx !== undefined) {
+        if (typeof idx !== "undefined" && idx !== null) {
           // Reload data with new language
           window.TYPES = getTypes();
           window.RESULT_PAGES = getResultPages();
@@ -1092,13 +1092,13 @@
        *  ========================= */
       function setProgress() {
         const QUESTIONS = getQuestions();
-        const t = window.t || ((key, vars = {}) => key);
+        const tFunc = window.t || ((key, vars = {}) => key);
         const total = QUESTIONS.length;
         const done = Math.min(idx, total);
-        progressRight.textContent = `${done} / ${total}`;
-        progressLabel.textContent = idx === 0 ? t("progressStart") : `Q${idx}`;
+        if (progressRight) progressRight.textContent = `${done} / ${total}`;
+        if (progressLabel) progressLabel.textContent = idx === 0 ? tFunc("progressStart") : `Q${idx}`;
         const pct = Math.round((done / total) * 100);
-        progressBar.style.width = `${pct}%`;
+        if (progressBar) progressBar.style.width = `${pct}%`;
       }
 
       function show(el) {
@@ -1137,16 +1137,18 @@
         idx = 0;
         answers = [];
         scores = resetScores();
-        hide(viewStart);
-        hide(viewResult);
-        show(viewQuiz);
+        if (viewStart) hide(viewStart);
+        if (viewResult) hide(viewResult);
+        if (viewQuiz) show(viewQuiz);
         renderQuestion();
       }
 
       function renderQuestion() {
         setProgress();
         const QUESTIONS = getQuestions();
+        if (!qTitle || !optionsWrap) return;
         const q = QUESTIONS[idx];
+        if (!q) return;
         qTitle.textContent = q.q;
         optionsWrap.innerHTML = "";
 
@@ -1163,18 +1165,22 @@
               finish();
             } else {
               // animate
-              viewQuiz.classList.remove("fade-in");
-              void viewQuiz.offsetWidth;
-              viewQuiz.classList.add("fade-in");
+              if (viewQuiz) {
+                viewQuiz.classList.remove("fade-in");
+                void viewQuiz.offsetWidth;
+                viewQuiz.classList.add("fade-in");
+              }
               renderQuestion();
             }
           });
           optionsWrap.appendChild(btn);
         });
 
-        backBtn.disabled = idx === 0;
-        backBtn.classList.toggle("opacity-40", idx === 0);
-        backBtn.classList.toggle("pointer-events-none", idx === 0);
+        if (backBtn) {
+          backBtn.disabled = idx === 0;
+          backBtn.classList.toggle("opacity-40", idx === 0);
+          backBtn.classList.toggle("pointer-events-none", idx === 0);
+        }
       }
 
       function goBack() {
@@ -1194,9 +1200,9 @@
         idx = 0;
         answers = [];
         scores = resetScores();
-        hide(viewQuiz);
-        hide(viewResult);
-        show(viewStart);
+        if (viewQuiz) hide(viewQuiz);
+        if (viewResult) hide(viewResult);
+        if (viewStart) show(viewStart);
         setProgress();
       }
 
@@ -1234,36 +1240,43 @@
 
         // Title/subtitle
         const isKo = currentLang === "ko";
-        resultTitle.textContent = isKo
-          ? `당신의 EGO 유형은 ${TYPES[top1].label} 또는 ${TYPES[top2].label}`
-          : `Your EGO type is ${TYPES[top1].label} or ${TYPES[top2].label}`;
-        resultSubtitle.textContent = isAmbiguous
-          ? (isKo
-              ? "주요 유형이 매우 근접합니다. 상황에 따라 두 자아 반응이 번갈아 나타날 수 있어요."
-              : "Main types are very close. Both ego reactions may alternate depending on the situation.")
-          : (isKo
-              ? "가장 강하게 활성화되는 자아 반응 패턴을 중심으로 설명합니다."
-              : "Explained focusing on the most strongly activated ego reaction pattern.");
+        if (resultTitle) {
+          resultTitle.textContent = isKo
+            ? `당신의 EGO 유형은 ${TYPES[top1].label} 또는 ${TYPES[top2].label}`
+            : `Your EGO type is ${TYPES[top1].label} or ${TYPES[top2].label}`;
+        }
+        if (resultSubtitle) {
+          resultSubtitle.textContent = isAmbiguous
+            ? (isKo
+                ? "주요 유형이 매우 근접합니다. 상황에 따라 두 자아 반응이 번갈아 나타날 수 있어요."
+                : "Main types are very close. Both ego reactions may alternate depending on the situation.")
+            : (isKo
+                ? "가장 강하게 활성화되는 자아 반응 패턴을 중심으로 설명합니다."
+                : "Explained focusing on the most strongly activated ego reaction pattern.");
+        }
 
         // Top cards
-        top1Name.textContent = TYPES[top1].label;
-        top1Tag.textContent = TYPES[top1].tag;
-        top1Pct.textContent = `${perc[top1]}%`;
+        if (top1Name) top1Name.textContent = TYPES[top1].label;
+        if (top1Tag) top1Tag.textContent = TYPES[top1].tag;
+        if (top1Pct) top1Pct.textContent = `${perc[top1]}%`;
 
-        top2Name.textContent = TYPES[top2].label;
-        top2Tag.textContent = TYPES[top2].tag;
-        top2Pct.textContent = `${perc[top2]}%`;
+        if (top2Name) top2Name.textContent = TYPES[top2].label;
+        if (top2Tag) top2Tag.textContent = TYPES[top2].tag;
+        if (top2Pct) top2Pct.textContent = `${perc[top2]}%`;
 
         // Ambiguous box
-        if (isAmbiguous) show(ambiguousBox);
-        else hide(ambiguousBox);
+        if (ambiguousBox) {
+          if (isAmbiguous) show(ambiguousBox);
+          else hide(ambiguousBox);
+        }
 
         // Distribution list
-        distList.innerHTML = "";
-        sorted.forEach((k) => {
-          const row = document.createElement("div");
-          row.className = "rounded-xl bg-white/5 border border-white/10 p-3";
-          row.innerHTML = `
+        if (distList) {
+          distList.innerHTML = "";
+          sorted.forEach((k) => {
+            const row = document.createElement("div");
+            row.className = "rounded-xl bg-white/5 border border-white/10 p-3";
+            row.innerHTML = `
       <div class="flex items-center justify-between text-sm">
         <div class="font-semibold">${escapeHtml(TYPES[k].label)}</div>
         <div class="tabular-nums font-bold">${perc[k]}%</div>
@@ -1272,19 +1285,20 @@
         <div class="h-full bg-white/60" style="width:${perc[k]}%"></div>
       </div>
     `;
-          row.addEventListener("click", () => setDetail(k));
-          distList.appendChild(row);
-        });
+            row.addEventListener("click", () => setDetail(k));
+            distList.appendChild(row);
+          });
+        }
 
         // default detail: top1
         currentDetailType = top1;
         setDetail(top1);
 
         // buttons
-        readTop1.onclick = () => setDetail(top1, true);
-        readTop2.onclick = () => setDetail(top2, true);
-        jumpTop1.onclick = () => setDetail(top1, true);
-        jumpTop2.onclick = () => setDetail(top2, true);
+        if (readTop1) readTop1.onclick = () => setDetail(top1, true);
+        if (readTop2) readTop2.onclick = () => setDetail(top2, true);
+        if (jumpTop1) jumpTop1.onclick = () => setDetail(top1, true);
+        if (jumpTop2) jumpTop2.onclick = () => setDetail(top2, true);
 
         // share text
         const shareText = isKo
@@ -1302,22 +1316,24 @@ One-line summary: ${RESULT_PAGES[top1].oneLine}
 (Note: EGO is not a fixed personality but a reaction pattern activated in situations.)`;
 
         // Use the tFunc function already declared at the top of finish()
-        copyShareBtn.onclick = async () => {
-          try {
-            await navigator.clipboard.writeText(shareText);
-            copyShareBtn.textContent = tFunc("copyShareSuccess");
-            setTimeout(
-              () => (copyShareBtn.textContent = tFunc("copyShareText")),
-              1200
-            );
-          } catch (e) {
-            alert(tFunc("copyShareFail"));
-          }
-        };
+        if (copyShareBtn) {
+          copyShareBtn.onclick = async () => {
+            try {
+              await navigator.clipboard.writeText(shareText);
+              copyShareBtn.textContent = tFunc("copyShareSuccess");
+              setTimeout(
+                () => (copyShareBtn.textContent = tFunc("copyShareText")),
+                1200
+              );
+            } catch (e) {
+              alert(tFunc("copyShareFail"));
+            }
+          };
+        }
 
         // Show result
-        hide(viewQuiz);
-        show(viewResult);
+        if (viewQuiz) hide(viewQuiz);
+        if (viewResult) show(viewResult);
         setProgress();
       }
 
@@ -1330,6 +1346,7 @@ One-line summary: ${RESULT_PAGES[top1].oneLine}
         const isKo = currentLang === "ko";
         currentDetailType = typeKey;
         const d = RESULT_PAGES[typeKey];
+        if (!d || !detailTitle || !detailBody) return;
         detailTitle.textContent = `${TYPES[typeKey].label} · ${d.title}`;
 
         detailBody.innerHTML = `
@@ -1388,7 +1405,7 @@ One-line summary: ${RESULT_PAGES[top1].oneLine}
     </div>
   `;
 
-        if (scrollInto) {
+        if (scrollInto && detailTitle) {
           detailTitle.scrollIntoView({ behavior: "smooth", block: "start" });
         }
       }
@@ -1409,13 +1426,13 @@ One-line summary: ${RESULT_PAGES[top1].oneLine}
       /** =========================
        *  Events
        *  ========================= */
-      startBtn.addEventListener("click", start);
-      backBtn.addEventListener("click", goBack);
-      resetBtn.addEventListener("click", resetAll);
-      restartBtn.addEventListener("click", resetAll);
+      if (startBtn) startBtn.addEventListener("click", start);
+      if (backBtn) backBtn.addEventListener("click", goBack);
+      if (resetBtn) resetBtn.addEventListener("click", resetAll);
+      if (restartBtn) restartBtn.addEventListener("click", resetAll);
 
-      prevTypeBtn.addEventListener("click", () => cycleDetail(-1));
-      nextTypeBtn.addEventListener("click", () => cycleDetail(1));
+      if (prevTypeBtn) prevTypeBtn.addEventListener("click", () => cycleDetail(-1));
+      if (nextTypeBtn) nextTypeBtn.addEventListener("click", () => cycleDetail(1));
 
       /** init */
       setProgress();
