@@ -1223,7 +1223,7 @@
       function finish() {
         const TYPES = getTypes();
         const RESULT_PAGES = getResultPages();
-        const t = window.t || ((key, vars = {}) => key);
+        const tFunc = window.t || ((key, vars = {}) => key);
         const perc = computePercents(scores);
         const sorted = Object.keys(perc).sort((a, b) => perc[b] - perc[a]);
         const top1 = sorted[0];
@@ -1301,17 +1301,17 @@
 One-line summary: ${RESULT_PAGES[top1].oneLine}
 (Note: EGO is not a fixed personality but a reaction pattern activated in situations.)`;
 
-        const t = window.t || ((key, vars = {}) => key);
+        // Use the tFunc function already declared at the top of finish()
         copyShareBtn.onclick = async () => {
           try {
             await navigator.clipboard.writeText(shareText);
-            copyShareBtn.textContent = t("copyShareSuccess");
+            copyShareBtn.textContent = tFunc("copyShareSuccess");
             setTimeout(
-              () => (copyShareBtn.textContent = t("copyShareText")),
+              () => (copyShareBtn.textContent = tFunc("copyShareText")),
               1200
             );
           } catch (e) {
-            alert(t("copyShareFail"));
+            alert(tFunc("copyShareFail"));
           }
         };
 
