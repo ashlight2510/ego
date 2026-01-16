@@ -605,8 +605,6 @@
         });
       });
 
-      setLang(detectLang(), { updateUrl: false });
-
       // Make t() function and currentLang globally available
       window.t = t;
       window.currentLang = currentLang;
@@ -1100,6 +1098,8 @@
         const pct = Math.round((done / total) * 100);
         if (progressBar) progressBar.style.width = `${pct}%`;
       }
+
+      setLang(detectLang(), { updateUrl: false });
 
       function show(el) {
         el.classList.remove("hidden");
