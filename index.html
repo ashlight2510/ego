@@ -516,6 +516,7 @@
       const defaultLang = "ko";
       const supportedLangs = ["ko", "en"];
       let currentLang = defaultLang;
+      let idx = 0;
 
       function t(key, vars = {}) {
         const langTable = translations[currentLang] || translations.ko;
@@ -1023,7 +1024,6 @@
       /** =========================
        *  State
        *  ========================= */
-      let idx = 0;
       let answers = []; // each: { optionIndex, scoreObj }
       let scores = resetScores();
       let currentDetailType = "E9"; // default
